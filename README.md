@@ -1,40 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+
+
+First, install libraries:
+
+Please make sure you have Node.js V18 or above installed
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+npm install
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Second, run the server:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+```bash
 
-To learn more about Next.js, take a look at the following resources:
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The server will listen on port 3000, please visit [localhost:3000](http://localhost:3000/command) to access the input page.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+In this page you can:
+
+You can type <b>/</b> to see available commands;
+
+Use <b>@</b> to mention someone
+
+Press `Enter` to send the message
+
+
+
+## Introduce
+
+
+
+The libraries used in this project include **Tailwind css**, **flowbite** and **Next.js**
+
+
+
+Because the input box needs to contain HTML elements, input or textarea is not used. Instead, I use **contentEditable** **DIV** as the input container. This can dynamically replace plain text content with HTML elements during the input process.
+
+If you need to add additional commands, you can set more available commands by editing the `src\lib\commands.ts` file. Of course, the specific way to load the list of available commands is different in real projects.
+
+### Main components
+`src\components\CommandInputArea.tsx`
+This file is mainly responsible for completing text input, rarat control and text parsing.
+`src\components\CommandSelector.tsx`
+This file can find and display possible commands and instructions by passing in the sub-string of the command line.
+`src\components\InputHistoryPanel.tsx`
+This component is used to display the entered text content
+`CommandInputArea` and `InputHistoryPanel` share the input text content through `src\contexts\InputsHistoryContext.ts`.
+
+### Main challenges
+
+ 1. When using contentEditable div, when the value of innerHTML changes, the cursor control is more complicated. We need to calculate the cursor position before processing the text, and then restore the cursor position after the content is modified. and at this point the innerHTML context is different from the  previous context.
+
+ 2. There are no detailed requirements for specific page styles. I have to rely on my imagination to design the UI interactions. In the end I adopted an interaction method similar to Slack.
+
+### What can be improved
+
+1. When the list of available commands appears, it will be more convenient if you can use the keyboard to select the command line you want to enter.
+2. After clicking the command with the mouse, we can move the cursor to the previous position of the input.
+3. When trying to mention a user, we can pop up a list of possible users to choose from.
+4. Add the test libaraies, like `Jest` and `Cypress`
